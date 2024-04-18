@@ -11,6 +11,7 @@
     <modules>
         <module>juc-demo</module>
         <module>rpc-demo</module>
+        <module>flink-demo</module>
     </modules>
 
     <properties>
