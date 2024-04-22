@@ -3,6 +3,7 @@ package com.ls.demo.flink.source.dev.expression.component;
 import com.ls.demo.flink.source.dev.expression.dto.ExpressionChangeRequest;
 import com.ls.demo.flink.source.dev.expression.dto.ReleaseBlockRequest;
 import com.ls.demo.flink.source.dev.expression.dto.SuccessResponse;
+import com.ls.demo.flink.source.dev.expression.event.CoordinatorEvent;
 import com.ls.demo.flink.source.dev.expression.event.SubtaskRegEvent;
 import com.ls.demo.flink.source.dev.expression.event.FlushSuccessEvent;
 import org.apache.flink.runtime.operators.coordination.*;
@@ -92,6 +93,11 @@ public class ExpressionCoordinator implements OperatorCoordinator, CoordinationR
 
     @Override
     public void executionAttemptReady(int subtask, int attemptNumber, SubtaskGateway gateway) {
+        System.out.println("[Coordinator] Received subtask gateway: " +
+                "subtask[" + subtask + "], " +
+                "attemptNumber[" + attemptNumber+ "], " +
+                "gateway[" + gateway + "]");
+        gateway.sendEvent(new CoordinatorEvent());
 
     }
 }

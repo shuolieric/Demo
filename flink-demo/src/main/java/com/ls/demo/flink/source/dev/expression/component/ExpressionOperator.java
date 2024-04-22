@@ -5,6 +5,8 @@ import com.ls.demo.flink.source.dev.expression.dto.ReleaseBlockRequest;
 import com.ls.demo.flink.source.dev.expression.event.*;
 import org.apache.flink.runtime.jobgraph.tasks.TaskOperatorEventGateway;
 import org.apache.flink.runtime.operators.coordination.CoordinationResponse;
+import org.apache.flink.runtime.operators.coordination.OperatorEvent;
+import org.apache.flink.runtime.operators.coordination.OperatorEventHandler;
 import org.apache.flink.streaming.api.graph.StreamConfig;
 import org.apache.flink.streaming.api.operators.AbstractStreamOperator;
 import org.apache.flink.streaming.api.operators.OneInputStreamOperator;
@@ -17,7 +19,8 @@ import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class ExpressionOperator extends AbstractStreamOperator<Event> implements OneInputStreamOperator<Event, Event> {
+public class ExpressionOperator extends AbstractStreamOperator<Event>
+        implements OneInputStreamOperator<Event, Event>, OperatorEventHandler {
 
     TaskOperatorEventGateway coordinatorEventGateway;
     int downstreamParallelism;
@@ -91,5 +94,12 @@ public class ExpressionOperator extends AbstractStreamOperator<Event> implements
     @Override
     public void setKeyContextElement(StreamRecord<Event> record) throws Exception {
         OneInputStreamOperator.super.setKeyContextElement(record);
+    }
+
+    @Override
+    public void handleOperatorEvent(OperatorEvent evt) {
+        if (evt instanceof CoordinatorEvent) {
+            System.out.println("[ExpressionOperator] Received coordinatorEvent");
+        }
     }
 }
