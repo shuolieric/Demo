@@ -21,6 +21,7 @@
         <lombok.version>1.18.28</lombok.version>
         <mysql.cdc.version>2.4.2</mysql.cdc.version>
         <kafka.version>3.3.1</kafka.version>
+        <hadoop.version>3.3.6</hadoop.version>
     </properties>
 
     <dependencies>
@@ -111,6 +112,18 @@
             <groupId>com.ververica</groupId>
             <artifactId>flink-connector-mysql-cdc</artifactId>
             <version>${mysql.cdc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.flink</groupId>
+            <artifactId>flink-connector-files</artifactId>
+            <version>${flink.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.hadoop</groupId>
+            <artifactId>hadoop-client</artifactId>
+            <version>${hadoop.version}</version>
         </dependency>
 
         <dependency>
