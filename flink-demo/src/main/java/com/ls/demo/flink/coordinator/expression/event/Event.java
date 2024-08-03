@@ -1,4 +1,4 @@
-package com.ls.demo.flink.source.dev.expression.event;
+package com.ls.demo.flink.coordinator.expression.event;
 
 import java.io.Serializable;
 

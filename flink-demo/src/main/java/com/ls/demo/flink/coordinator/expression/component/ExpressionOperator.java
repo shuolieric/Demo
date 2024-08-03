@@ -1,8 +1,8 @@
-package com.ls.demo.flink.source.dev.expression.component;
+package com.ls.demo.flink.coordinator.expression.component;
 
-import com.ls.demo.flink.source.dev.expression.dto.ExpressionChangeRequest;
-import com.ls.demo.flink.source.dev.expression.dto.ReleaseBlockRequest;
-import com.ls.demo.flink.source.dev.expression.event.*;
+import com.ls.demo.flink.coordinator.expression.event.*;
+import com.ls.demo.flink.coordinator.expression.dto.ExpressionChangeRequest;
+import com.ls.demo.flink.coordinator.expression.dto.ReleaseBlockRequest;
 import org.apache.flink.runtime.jobgraph.tasks.TaskOperatorEventGateway;
 import org.apache.flink.runtime.operators.coordination.CoordinationResponse;
 import org.apache.flink.runtime.operators.coordination.OperatorEvent;

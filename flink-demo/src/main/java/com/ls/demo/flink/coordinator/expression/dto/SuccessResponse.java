@@ -1,4 +1,4 @@
-package com.ls.demo.flink.source.dev.expression.dto;
+package com.ls.demo.flink.coordinator.expression.dto;
 
 import org.apache.flink.runtime.operators.coordination.CoordinationResponse;
 

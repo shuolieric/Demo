@@ -1,11 +1,11 @@
-package com.ls.demo.flink.source.dev.expression.component;
+package com.ls.demo.flink.coordinator.expression.component;
 
-import com.ls.demo.flink.source.dev.expression.dto.ExpressionChangeRequest;
-import com.ls.demo.flink.source.dev.expression.dto.ReleaseBlockRequest;
-import com.ls.demo.flink.source.dev.expression.dto.SuccessResponse;
-import com.ls.demo.flink.source.dev.expression.event.CoordinatorEvent;
-import com.ls.demo.flink.source.dev.expression.event.SubtaskRegEvent;
-import com.ls.demo.flink.source.dev.expression.event.FlushSuccessEvent;
+import com.ls.demo.flink.coordinator.expression.event.SubtaskRegEvent;
+import com.ls.demo.flink.coordinator.expression.dto.ExpressionChangeRequest;
+import com.ls.demo.flink.coordinator.expression.dto.ReleaseBlockRequest;
+import com.ls.demo.flink.coordinator.expression.dto.SuccessResponse;
+import com.ls.demo.flink.coordinator.expression.event.CoordinatorEvent;
+import com.ls.demo.flink.coordinator.expression.event.FlushSuccessEvent;
 import org.apache.flink.runtime.operators.coordination.*;
 
 import javax.annotation.Nullable;
