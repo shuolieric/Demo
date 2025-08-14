@@ -9,13 +9,12 @@ import com.ls.demo.flink.coordinator.expression.event.FlushSuccessEvent;
 import org.apache.flink.runtime.operators.coordination.*;
 
 import javax.annotation.Nullable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class ExpressionCoordinator implements OperatorCoordinator, CoordinationRequestHandler {
 
-    private Map<Integer, Object> subtasks = new HashMap<>();
+    private ConcurrentHashMap<Integer, Object> registeredCalculatorSubTasks = new ConcurrentHashMap<>();
     private int flushSuccessCount = 0;
     CompletableFuture<CoordinationResponse> responseFuture = new CompletableFuture<>();
 
@@ -35,10 +34,10 @@ public class ExpressionCoordinator implements OperatorCoordinator, CoordinationR
         if (event instanceof SubtaskRegEvent) {
             SubtaskRegEvent subtaskRegEvent = (SubtaskRegEvent) event;
             System.out.println("[Coordinator] Received subtask reg, subtaskId: " +  subtaskRegEvent.getSubtaskId());
-            this.subtasks.put(subtaskRegEvent.getSubtaskId(), "");
+            this.registeredCalculatorSubTasks.put(subtaskRegEvent.getSubtaskId(), "");
         } else if (event instanceof FlushSuccessEvent) {
             System.out.println("[Coordinator] Received flush success event");
-            if (++flushSuccessCount >= this.subtasks.keySet().size()) {
+            if (++flushSuccessCount >= this.registeredCalculatorSubTasks.keySet().size()) {
                 this.responseFuture.complete(new SuccessResponse());
                 this.flushSuccessCount = 0;
             }

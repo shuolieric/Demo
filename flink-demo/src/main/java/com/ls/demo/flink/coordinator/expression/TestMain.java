@@ -6,7 +6,11 @@ import com.ls.demo.flink.coordinator.expression.event.ExpressionEvent;
 import com.ls.demo.flink.coordinator.expression.component.CalculateOperator;
 import com.ls.demo.flink.coordinator.expression.component.ExpressionOperatorFactory;
 import com.ls.demo.flink.coordinator.expression.event.Event;
+import com.ls.demo.flink.coordinator.expression.event.PartitionedEvent;
+import org.apache.flink.api.common.functions.Partitioner;
 import org.apache.flink.api.common.typeinfo.TypeInformation;
+import org.apache.flink.api.java.functions.KeySelector;
+import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.datastream.DataStreamSource;
 import org.apache.flink.streaming.api.datastream.SingleOutputStreamOperator;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
@@ -38,7 +42,12 @@ public class TestMain {
                 TypeInformation.of(Event.class),
                 new ExpressionOperatorFactory(new ExpressionOperator(2))).setParallelism(1);
 
-        SingleOutputStreamOperator<Double> calculateDataStream = expressionDataStream.transform("calculate operator",
+        DataStream<Event> partitionedDataStream = expressionDataStream.partitionCustom((key, numPartitions) -> key % numPartitions, value -> {
+            PartitionedEvent partitionedEvent = (PartitionedEvent) value;
+            return partitionedEvent.getPartition();
+        });
+
+        SingleOutputStreamOperator<Double> calculateDataStream = partitionedDataStream.transform("calculate operator",
                 TypeInformation.of(Double.class),
                 new CalculateOperator()).setParallelism(downstreamParallelism);
 

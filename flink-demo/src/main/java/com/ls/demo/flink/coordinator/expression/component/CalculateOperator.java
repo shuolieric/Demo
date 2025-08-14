@@ -61,9 +61,11 @@ public class CalculateOperator extends AbstractStreamOperator<Double> implements
             dataMap.put("f1", f1);
             dataMap.put("f2", f2);
             dataMap.put("f3", f3);
-            Double result = (Double) expression.execute(dataMap);
+            if (expression != null) {
+                Double result = (Double) expression.execute(dataMap);
+                output.collect(new StreamRecord<>(result));
+            }
 
-            output.collect(new StreamRecord<>(result));
         } else if (event instanceof ExpressionEvent){
             ExpressionEvent expressionEvent = (ExpressionEvent) event;
             System.out.println("[Calculate operator] Received expression change event: " + expressionEvent);
